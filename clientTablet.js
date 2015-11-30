@@ -91,7 +91,7 @@ socket.on("updateCardsOnTable", function(data){
   if (data.lastCardOnTable == "") {
     $("#table").text("");
   } else {
-      $("#centre").append('<div class="jeu-tapis"><img class="carte" src="resources/' + data.lastCardOnTable + '.png" style="position: relative; bottom: 0px; width: 100px;"></div>' );
+     $("#centre").append('<div class="jeu-tapis"><img class="carte" src="resources/' + data.lastCardOnTable + '.png" style="position: relative; bottom: 0px; width: 100px;"></div>' );
       //$("#table").append("<img width=100 src=resources/" + data.lastCardOnTable + ".png>");
   }
 });
