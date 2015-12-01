@@ -168,10 +168,13 @@ $("#join").click(function() {
     if (name.length > 0 && key.length == 4) {
       socket.emit("connectToServer", {name:name});
       socket.emit('connectToTable', {key:key});
+        
+        
       $("#joinForm").hide();
       $("#createForm").hide();
       $("#tableFull").hide();
       $("#waiting").show();
+        ////////////////::la////////////////////////////////////
       socket.on("ready", function(data){
         $("#waiting").hide();
         $("#playArea").show();

@@ -1,10 +1,37 @@
 var socket = io.connect("http://localhost:8080");
 
 //var socket = io.connect("http://ec2-54-229-63-210.eu-west-1.compute.amazonaws.com:8080");
+
+
+socket.on("join",function(data){
+    
+    switch (data.nb_players) {
+            
+            case 1:
+            $("#wrap").append('<div id="droite" class="jeu-joueur horizontal"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><p class="pseudo gris">'+ data.message +'</p></div>');
+            break;
+            case 2:
+            $("#wrap").append('<div id="gauche" class="jeu-joueur horizontal"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><img class="carte rotate"src="resources/redBack.png" alt="dos de carte"><p class="pseudo gris">'+ data.message +'</p></div>');
+            break;
+            case 3 :
+            
+            $("#wrap").append('<div id="haut" class="tapis-vertical"><div class="jeu-joueur vertical"><img class="carte"src="resources/redBack.png" alt="dos de carte"></div><p class="pseudo gris">'+ data.message +'</p></div>');
+            break;
+            case 4 :
+            break;
+    }
+    
+                 
+          
+
+          });
 socket.on("logging", function(data) {
+    
   $("#updates").append("<li>"+ data.message + "</li>");
+    
   var log = document.getElementById('footer');
   log.scrollTop = log.scrollHeight;
+    
 });
 
 socket.on("timer", function (data) {
@@ -86,11 +113,12 @@ socket.on("updatePackCount", function(data) {
 
 socket.on("updateCardsOnTable", function(data){
   console.log(data);
-  $("#playArea").show();
-  $("#table").text("");
+ $("#playArea").show();
+ $("#centre").text("");
   if (data.lastCardOnTable == "") {
-    $("#table").text("");
+    $("#centre").text("");
   } else {
+  	
      $("#centre").append('<div class="jeu-tapis"><img class="carte" src="resources/' + data.lastCardOnTable + '.png" style="position: relative; bottom: 0px; width: 100px;"></div>' );
       //$("#table").append("<img width=100 src=resources/" + data.lastCardOnTable + ".png>");
   }
@@ -162,27 +190,6 @@ $("#create").click(function() {
   $("#createForm").hide();
 });
 
-$("#join").click(function() {
-    var name = $("#joinPlayerName").val();
-    var key = $("#joinTableKey").val();
-
-    if (name.length > 0 && key.length == 4) {
-      socket.emit("connectToServer", {name:name});
-      socket.emit('connectToTable', {key:key});
-      $("#joinForm").hide();
-      $("#createForm").hide();
-      $("#tableFull").hide();
-      $("#waiting").show();
-      socket.on("ready", function(data){
-        $("#waiting").hide();
-        $("#playArea").show();
-        $("#progressUpdate").show();
-      });
-    } else {
-      $("#error").show();
-      $("#error").html('<p class="text-error">Please enter a name.</p>');
-    }
-  });
 
   $("#drawCard").click(function() {
     socket.emit("drawCard", {tableID: 1});

@@ -106,6 +106,7 @@ io.sockets.on('connection', function (socket) {
       player.status = "intable";
       table.playersID.push(socket.id); //probably not needed
       io.sockets.emit("logging", {message: player.name + " has connected to table: " + table.name + "."});
+        io.sockets.emit("join", {message: player.name ,nb_players: table.players.length });
       if (table.players.length < table.playerLimit) {
         io.sockets.emit("logging", {message: "There is " + table.players.length + " player at this table. The table requires " + table.playerLimit + " players to join." });
         io.sockets.emit("waiting", {message: "Waiting for "+ table.getRemainingSpots() +" other player(s) to join."});
